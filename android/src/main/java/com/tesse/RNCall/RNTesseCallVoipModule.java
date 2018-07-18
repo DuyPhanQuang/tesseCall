@@ -1,4 +1,3 @@
-
 package com.tesse.RNCall;
 
 import android.Manifest;
@@ -151,7 +150,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void connectCall (Promise promise) {
+  public void connectCall(Promise promise) {
     Connection connection = MyConnectionService.getConnection(mReactContext.getCurrentActivity());
     if (connection != null) {
       promise.reject("Can not connect call when no call active", "");
@@ -168,7 +167,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void mute (Promise promise) {
+  public void mute(Promise promise) {
     if (this.mReactContext == null) {
       promise.reject("Cannot mute microphone without context valid", "");
       return;
@@ -181,7 +180,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void unmute (Promise promise) {
+  public void unmute(Promise promise) {
     if (this.mReactContext == null) {
       promise.reject("Can not unmute microphone without context valid", "");
       return;
@@ -194,7 +193,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void speakerOn (Promise promise) {
+  public void speakerOn(Promise promise) {
     if (this.mReactContext == null) {
       promise.reject("Can not turn on speaker without context valid", "");
       return;
@@ -207,7 +206,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void speakerOff (Promise promise) {
+  public void speakerOff(Promise promise) {
     if (this.mReactContext == null) {
       promise.reject("Can not turn off speaker without context valid", "");
       return;
@@ -234,7 +233,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
       }
 
       if (permissionCounter == 2) {
-        Intent phoneIntent = new Intent (TelecomManager.ACTION_CHANGE_PHONE_ACCOUNTS);
+        Intent phoneIntent = new Intent(TelecomManager.ACTION_CHANGE_PHONE_ACCOUNTS);
         this.mReactContext.startActivity(phoneIntent);
       }
     }
@@ -260,6 +259,16 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
     callInfo.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle);
     callInfo.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_VIDEO_STATE, true);
 
+    if (ActivityCompat.checkSelfPermission(this.mReactContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+      // TODO: Consider calling
+      //    ActivityCompat#requestPermissions
+      // here to request the missing permissions, and then overriding
+      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+      //                                          int[] grantResults)
+      // to handle the case where the user grants the permission. See the documentation
+      // for ActivityCompat#requestPermissions for more details.
+      return;
+    }
     telecomManager.placeCall(uri, callInfo);
     permissionCounter = 0;
   }
