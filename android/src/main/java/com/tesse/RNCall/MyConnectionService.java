@@ -24,7 +24,7 @@ public class MyConnectionService extends ConnectionService {
     private static Connection mConnection;
     private static Activity mActivity;
 
-    public static Connection getmConnection (Activity mainActivity) {
+    public static Connection getConnection (Activity mainActivity) {
         mActivity = mainActivity;
         return mConnection;
     }
@@ -37,15 +37,17 @@ public class MyConnectionService extends ConnectionService {
         mActivity = mainActivity;
     }
 
-    @Override
-    public Connection onCreateInComingConnection (final PhoneAccountHandle connectionManagerPhoneAccount, final ConnectionRequest connectionRequest) {
-        Log.i(TAG, "onCreateIncomingConnection");
 
+
+    @Override
+    public Connection onCreateIncomingConnection (final PhoneAccountHandle connectionManagerPhoneAccount, final ConnectionRequest connectionRequest) {
+        Log.i(TAG, "onCreateIncomingConnection");
         final Connection connection = new Connection() {
             @Override
             public void onAnswer() {
                 this.setActive();
                 Intent intent = new Intent(getApplicationContext(), mActivity.getClass());
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 getApplicationContext().startActivity(intent);
                 RNTesseCallVoipModule.getInstance().sendEvent("answer", null);
             }
@@ -53,6 +55,14 @@ public class MyConnectionService extends ConnectionService {
             @Override
             public void onReject() {
                 DisconnectCause disconnectCause = new DisconnectCause(DisconnectCause.REJECTED);
+                this.setDisconnected(disconnectCause);
+                this.destroy();
+                mConnection = null;
+                RNTesseCallVoipModule.getInstance().sendEvent("reject", null);
+            }
+            @Override
+            public void onDisconnect() {
+                DisconnectCause disconnectCause = new DisconnectCause(DisconnectCause.LOCAL);
                 this.setDisconnected(disconnectCause);
                 this.destroy();
                 mConnection = null;
