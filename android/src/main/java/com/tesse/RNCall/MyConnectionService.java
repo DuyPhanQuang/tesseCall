@@ -17,7 +17,6 @@ import android.telecom.StatusHints;
 import android.telecom.TelecomManager;
 import android.util.Log;
 
-@TargetApi(Build.VERSION_CODES.M)
 public class MyConnectionService extends ConnectionService {
 
     private static final String TAG = "MyConnectionService";
@@ -49,7 +48,7 @@ public class MyConnectionService extends ConnectionService {
                 Intent intent = new Intent(getApplicationContext(), mActivity.getClass());
                 //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 getApplicationContext().startActivity(intent);
-                RNTesseCallVoipModule.getInstance().sendEvent("answer", null);
+                RNCallModule.getInstance().sendEvent("answer", null);
             }
 
             @Override
@@ -58,7 +57,7 @@ public class MyConnectionService extends ConnectionService {
                 this.setDisconnected(disconnectCause);
                 this.destroy();
                 mConnection = null;
-                RNTesseCallVoipModule.getInstance().sendEvent("reject", null);
+                RNCallModule.getInstance().sendEvent("reject", null);
             }
             @Override
             public void onDisconnect() {
@@ -66,19 +65,19 @@ public class MyConnectionService extends ConnectionService {
                 this.setDisconnected(disconnectCause);
                 this.destroy();
                 mConnection = null;
-                RNTesseCallVoipModule.getInstance().sendEvent("hangup", null);
+                RNCallModule.getInstance().sendEvent("hangup", null);
             }
         };
 
         connection.setAddress(Uri.parse(connectionRequest.getExtras().getString("from")), TelecomManager.PRESENTATION_ALLOWED);
 
-        Icon icon = RNTesseCallVoipModule.getIcon();
+        Icon icon = RNCallModule.getIcon();
         if (icon != null) {
             StatusHints statusHints = new StatusHints("", icon, new Bundle());
             connection.setStatusHints(statusHints);
         }
 
-        RNTesseCallVoipModule.getInstance().sendEvent("receiveCall", null);
+        RNCallModule.getInstance().sendEvent("receiveCall", null);
         mConnection = connection;
         return mConnection;
     }
@@ -106,19 +105,19 @@ public class MyConnectionService extends ConnectionService {
                 this.setDisconnected(disconnectCause);
                 this.destroy();
                 mConnection = null;
-                RNTesseCallVoipModule.getInstance().sendEvent("hangup", null);
+                RNCallModule.getInstance().sendEvent("hangup", null);
             }
         };
 
         connection.setAddress(Uri.parse(connectionRequest.getExtras().getString("to")), TelecomManager.PRESENTATION_ALLOWED);
 
-        Icon icon = RNTesseCallVoipModule.getIcon();
+        Icon icon = RNCallModule.getIcon();
         if (icon != null) {
             StatusHints statusHints = new StatusHints("", icon, new Bundle());
             connection.setStatusHints(statusHints);
         }
 
-        RNTesseCallVoipModule.getInstance().sendEvent("sendCall", null);
+        RNCallModule.getInstance().sendEvent("sendCall", null);
         mConnection = connection;
         return mConnection;
     }

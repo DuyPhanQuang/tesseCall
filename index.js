@@ -1,12 +1,12 @@
 
 const ReactNative = require("react-native");
 const NativeModules = ReactNative.NativeModules;
-const RNTesseCallVoip = NativeModules.RNTesseCallVoip;
+const RNCall = NativeModules.RNCall;
 
 const ReactNativeCall = {
   setAppName: appName => {
     return new Promise((resolve, reject) => {
-      const success = RNTesseCallVoip.setAppName(appName);
+      const success = RNCall.setAppName(appName);
       if (success) {
         resolve();
       } else {
@@ -18,7 +18,7 @@ const ReactNativeCall = {
   
   setIcon: iconName => {
     return new Promise((resolve, reject) => {
-      const success = RNTesseCallVoip.setIcon(iconName);
+      const success = RNCall.setIcon(iconName);
       if (success) {
         resolve();
       } else {
@@ -30,7 +30,7 @@ const ReactNativeCall = {
 
   setRingtone: ringtoneName => {
     return new Promise((resolve, reject) => {
-      const success = RNTesseCallVoip.setRingtone(ringtoneName);
+      const success = RNCall.setRingtone(ringtoneName);
         if (success) {
             resolve();
         } else {
@@ -49,7 +49,7 @@ const ReactNativeCall = {
         return;
       }
 
-      const success = RNTesseCallVoip.setIncludeInRecents(showInRecentCalls);
+      const success = RNCall.setIncludeInRecents(showInRecentCalls);
       if (success) {
         resolve();
       } else {
@@ -66,7 +66,7 @@ const ReactNativeCall = {
         return;
       }
 
-      const success = RNTesseCallVoip.setVideo(showAsVideoCall);
+      const success = RNCall.setVideo(showAsVideoCall);
       if (success) {
         resolve();
       } else {
@@ -76,31 +76,31 @@ const ReactNativeCall = {
   },
 
   receiveCall: from => {
-    return RNTesseCallVoip.receiveCall(from);
+    return RNCall.receiveCall(from);
   },
   sendCall: to => {
-    return RNTesseCallVoip.sendCall(to);
+    return RNCall.sendCall(to);
   },
   connectCall: () => {
-    return RNTesseCallVoip.connectCall();
+    return RNCall.connectCall();
   },
   endCall: () => {
-    return RNTesseCallVoip.endCall();
+    return RNCall.endCall();
   },
   mute: () => {
-    return RNTesseCallVoip.mute();
+    return RNCall.mute();
   },
   unmute: () => {
-    return RNTesseCallVoip.unmute();
+    return RNCall.unmute();
   },
   speakerOn: () => {
-    return RNTesseCallVoip.speakerOn();
+    return RNCall.speakerOn();
   },
   speakerOff: () => {
-    return RNTesseCallVoip.speakerOff();
+    return RNCall.speakerOff();
   },
   callNumber: () => {
-    return RNTesseCallVoip.callNumber(to);
+    return RNCall.callNumber(to);
   }
 };
 

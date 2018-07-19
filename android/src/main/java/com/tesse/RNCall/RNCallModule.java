@@ -20,7 +20,6 @@ import android.util.Log;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
@@ -28,9 +27,9 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import javax.annotation.Nullable;
 
-public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
+public class RNCallModule extends ReactContextBaseJavaModule {
 
-  private static final String TAG = "RNTesseCallVoip";
+  private static final String TAG = "RNCall ";
   private static final int CALL_PHONE_REQ_CODE = 0;
   private static final int REAL_PHONE_CALL = 1;
 
@@ -48,11 +47,11 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
 
   ReactApplicationContext mReactContext;
 
-  private static RNTesseCallVoipModule _instance;
+  private static RNCallModule _instance;
 
-  public static RNTesseCallVoipModule getInstance() {
+  public static RNCallModule getInstance() {
     if (_instance == null) {
-      _instance = new RNTesseCallVoipModule(null);
+      _instance = new RNCallModule(null);
     }
     return _instance;
   }
@@ -66,7 +65,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
             .emit(eventName, params);
   }
 
-  public RNTesseCallVoipModule(ReactApplicationContext reactContext) {
+  public RNCallModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.mReactContext = reactContext;
 
@@ -89,7 +88,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
 
   @Override
   public String getName() {
-    return "RNTesseCallVoip";
+    return "RNCall";
   }
 
   @ReactMethod
@@ -157,6 +156,7 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
       return;
     }
     if (connection.getState() == Connection.STATE_ACTIVE) {
+      Log.d("check error", "errrrrr");
       promise.reject("Can not connect call that already connected", "");
     }
 
@@ -260,13 +260,6 @@ public class RNTesseCallVoipModule extends ReactContextBaseJavaModule {
     callInfo.putBoolean(TelecomManager.EXTRA_START_CALL_WITH_VIDEO_STATE, true);
 
     if (ActivityCompat.checkSelfPermission(this.mReactContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-      // TODO: Consider calling
-      //    ActivityCompat#requestPermissions
-      // here to request the missing permissions, and then overriding
-      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-      //                                          int[] grantResults)
-      // to handle the case where the user grants the permission. See the documentation
-      // for ActivityCompat#requestPermissions for more details.
       return;
     }
     telecomManager.placeCall(uri, callInfo);

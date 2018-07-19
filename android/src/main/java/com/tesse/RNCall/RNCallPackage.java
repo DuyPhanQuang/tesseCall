@@ -10,12 +10,11 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
-import com.tesse.RNCall.RNTesseCallVoipModule;
 
-public class RNTesseCallVoipPackage implements ReactPackage {
+public class RNCallPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNTesseCallVoipModule(reactContext));
+      return Arrays.<NativeModule>asList(new RNCallModule(reactContext));
     }
 
     // Deprecated from RN 0.55.4
