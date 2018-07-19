@@ -76,9 +76,11 @@ const ReactNativeCall = {
   },
 
   receiveCall: from => {
+    console.log('receiveCall', RNCall.receiveCall(from));
     return RNCall.receiveCall(from);
   },
   sendCall: to => {
+    console.log('receiveCall', RNCall.receiveCall(from));
     return RNCall.sendCall(to);
   },
   connectCall: () => {
