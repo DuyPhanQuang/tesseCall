@@ -37,9 +37,9 @@
 
 ## Usage
 ```javascript
-import RNTesseCallVoip from 'react-native-tesse-call-voip';
+import RNCall from 'react-native-tesse-call-voip';
 
 // TODO: What to do with the module?
-RNTesseCallVoip;
+RNCall;
 ```
   
